@@ -1,0 +1,11 @@
+{
+  "connections": {
+    "api": {
+      "port": 8080
+    },
+    "ui": {
+      "port": 80
+    }
+  }
+  production: true
+}

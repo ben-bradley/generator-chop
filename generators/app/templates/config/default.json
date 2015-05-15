@@ -1,0 +1,12 @@
+{
+  "connections": {
+    "api": {
+      "port": 3001,
+      "labels": ["api"]
+    },
+    "ui": {
+      "port": 3000,
+      "labels": ["ui"]
+    }
+  }
+}
