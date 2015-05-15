@@ -8,6 +8,7 @@ var gulp = require('gulp'),
   buffer = require('vinyl-buffer'),
   watchify = require('watchify'),
   reactify = require('reactify'),
+  babelify = require('babelify'),
   nodemon = require('gulp-nodemon'),
   rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
@@ -28,7 +29,7 @@ gulp.task('bundle', function () {
 
 function bundler(file) {
   var watchArgs = watchify.args;
-  watchArgs.transform = [reactify];
+  watchArgs.transform = [reactify, babelify];
   var Bundler = watchify(browserify(watchArgs));
   var uiRoot = path.dirname(file) + '/..';
   Bundler.add(file);
@@ -51,8 +52,6 @@ gulp.task('html', function () {
 
 function html(file) {
   var uiRoot = path.dirname(file) + '/..';
-  debug('HTMLING FROM:' + file);
-  debug('HTMLING TO  :' + uiRoot + '/dist');
   gulp.src(file)
     .pipe(gulp.dest(uiRoot + '/dist'));
 }
