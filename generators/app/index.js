@@ -44,7 +44,7 @@ module.exports = yeoman.generators.Base.extend({
 
       this.mkdir('ui/dist');
 
-      this.copy('.gitignore', '.gitignore');
+      this.copy('_gitignore', '.gitignore');
       this.copy('gulpfile.js', 'gulpfile.js');
       this.copy('index.js', 'index.js');
       this.copy('readme.md', 'readme.md');
