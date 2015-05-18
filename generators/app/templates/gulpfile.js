@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   reactify = require('reactify'),
   babelify = require('babelify'),
   nodemon = require('gulp-nodemon'),
+  livereload = require('gulp-livereload'),
   rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
   less = require('gulp-less'),
@@ -102,6 +103,8 @@ gulp.task('nodemon', function () {
     lessIt(ev.path);
   });
 
+  livereload.listen();
+
   // start the server
   nodemon({
     env: process.ENV,
@@ -112,6 +115,13 @@ gulp.task('nodemon', function () {
       PATHS.dist + '/*.html',
       PATHS.dist + '/*.js',
       PATHS.dist + '/*.css',
-    ]
+    ],
+    stdout: false
+  }).on('readable', function() {
+    this.stdout.on('data', function(data) {
+      if (/^Server listening/.test(data))
+        livereload.reload();
+      process.stdout.write(data);
+    });
   });
 });

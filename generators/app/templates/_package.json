@@ -36,6 +36,7 @@
     "babelify": "^6.1.1",
     "gulp": "^3.8.11",
     "gulp-less": "^3.0.3",
+    "gulp-livereload": "^3.8.0",
     "gulp-nodemon": "^2.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",

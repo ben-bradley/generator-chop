@@ -46,6 +46,7 @@ server.register({
 if (!config.test)
   server.start(function() {
     debug('Server started!');
+    console.log('Server listening...');
   });
 else
   module.exports = server;
