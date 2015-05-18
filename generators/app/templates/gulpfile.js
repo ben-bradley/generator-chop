@@ -103,6 +103,10 @@ gulp.task('nodemon', function () {
     lessIt(ev.path);
   });
 
+  gulp.watch(PATHS.dist + '/*', function(ev) {
+    livereload.reload();
+  });
+
   livereload.listen();
 
   // start the server
@@ -110,18 +114,6 @@ gulp.task('nodemon', function () {
     env: process.ENV,
     script: 'index.js',
     args: process.argv.slice(2),
-    watch: [
-      'index.js',
-      PATHS.dist + '/*.html',
-      PATHS.dist + '/*.js',
-      PATHS.dist + '/*.css',
-    ],
-    stdout: false
-  }).on('readable', function() {
-    this.stdout.on('data', function(data) {
-      if (/^Server listening/.test(data))
-        livereload.reload();
-      process.stdout.write(data);
-    });
+    watch: [ 'index.js' ]
   });
 });
