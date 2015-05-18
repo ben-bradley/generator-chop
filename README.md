@@ -2,7 +2,7 @@
 
 > A Gulp, Hapi, SocketIO, React, Bootstrap app generator.
 
-> Very much in development.
+> VERY much in development.
 
 ## Chop
 
