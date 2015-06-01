@@ -36,13 +36,14 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function () {
 
-      this.directory('api', 'api');
-      this.directory('ui', 'ui');
       this.directory('config', 'config');
       this.directory('example', 'example');
+      this.directory('src', 'src');
       this.directory('test', 'test');
 
-      this.mkdir('ui/dist');
+      this.mkdir('dist');
+      this.mkdir('dist/server');
+      this.mkdir('dist/client');
 
       this.copy('_gitignore', '.gitignore');
       this.copy('gulpfile.js', 'gulpfile.js');
@@ -50,7 +51,7 @@ module.exports = yeoman.generators.Base.extend({
       this.copy('readme.md', 'readme.md');
 
       this.template('_package.json', 'package.json');
-      this.template('ui/src/_index.html', 'ui/src/index.html');
+      this.template('src/client/index.html');
 
     }
   },
@@ -63,7 +64,7 @@ module.exports = yeoman.generators.Base.extend({
       callback: function() {
         var cwd = this.env.cwd,
           src = cwd + '/node_modules/font-awesome/fonts',
-          dest = 'ui/dist/fonts';
+          dest = 'dist/client/fonts';
         this.directory(src, dest);
       }.bind(_this)
     });

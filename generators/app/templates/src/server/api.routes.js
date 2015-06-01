@@ -1,5 +1,5 @@
 var Boom = require('boom'),
-  handlers = require('./handlers'),
+  handlers = require('./api.handlers'),
   debug = require('debug')('api.routes');
 
 module.exports = [{

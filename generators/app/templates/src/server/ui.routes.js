@@ -15,7 +15,7 @@ module.exports = [{
   path: '/{p*}',
   handler: {
     directory: {
-      path: __dirname + '/dist'
+      path: __dirname + '/../client'
     }
   }
 }];
