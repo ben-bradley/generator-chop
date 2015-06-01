@@ -35,6 +35,7 @@
     "browserify": "^9.0.8",
     "babelify": "^6.1.1",
     "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.0",
     "gulp-nodemon": "^2.0.2",

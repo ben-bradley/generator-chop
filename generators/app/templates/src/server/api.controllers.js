@@ -2,7 +2,7 @@ var q = require('q'),
   _ = require('lodash'),
   LRU = require('lru-cache'),
   debug = require('debug')('api.controller'),
-  Model = require('./model');
+  Model = require('./api.models');
 
 var Promise = q.Promise;
 

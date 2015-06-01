@@ -9,6 +9,7 @@ var gulp = require('gulp'),
   watchify = require('watchify'),
   reactify = require('reactify'),
   babelify = require('babelify'),
+  babel = require('gulp-babel'),
   nodemon = require('gulp-nodemon'),
   livereload = require('gulp-livereload'),
   rename = require('gulp-rename'),
@@ -16,16 +17,21 @@ var gulp = require('gulp'),
   less = require('gulp-less'),
   debug = require('debug')('gulpfile');
 
-gulp.task('default', ['html', 'less', 'bundle', 'nodemon']);
+//gulp.task('default', ['babel', 'html', 'less', 'bundle', 'nodemon']);
+gulp.task('default', ['nodemon'], function () {
+  debug('gulped!')
+});
 
-var PATHS = {
-  src: __dirname + '/ui/src',
-  dist: __dirname + '/ui/dist'
-}
+// convert server-side es6 to es5
+gulp.task('babel', function () {
+  return gulp.src('src/server/*.js')
+    .pipe(babel())
+    .pipe(gulp.dest('dist/server'));
+});
 
 // Compile JSX into JS
 gulp.task('bundle', function () {
-  glob.sync(PATHS.src + '/app.js').forEach(bundler);
+  bundler(__dirname + '/src/client/app.js');
 });
 
 function bundler(file) {
@@ -35,12 +41,14 @@ function bundler(file) {
   var uiRoot = path.dirname(file) + '/..';
   Bundler.add(file);
 
+  debug('BUNDLE:', file);
+
   function bundle() {
-    debug('Bundling: ' + file);
+    debug('BUNDLING: ' + file);
     return Bundler.bundle()
       .on('error', gutil.log.bind(gutil, 'Browserify Error'))
       .pipe(source('app.js'))
-      .pipe(gulp.dest(uiRoot + '/dist'));
+      .pipe(gulp.dest('dist/client'));
   };
   Bundler.on('update', bundle);
   bundle();
@@ -48,62 +56,46 @@ function bundler(file) {
 
 // Copy an HTML file into /dist
 gulp.task('html', function () {
-  glob.sync(PATHS.src + '/*.html').forEach(html);
+  glob.sync('src/client/**.html').forEach(html);
 });
 
 function html(file) {
-  var uiRoot = path.dirname(file) + '/..';
   gulp.src(file)
-    .pipe(gulp.dest(uiRoot + '/dist'));
-}
-
-// Uglify/min a .js file
-gulp.task('uglify', function () {
-  glob.sync(PATHS.dist + '/app.js').forEach(min);
-});
-
-function min(file) {
-  var uiRoot = path.dirname(file) + '/..';
-  gulp.src(file)
-    .pipe(uglify())
-    .pipe(rename(function (path) {
-      path.basename += '.min';
-    }))
-    .pipe(gulp.dest(uiRoot + '/dist'));
+    .pipe(gulp.dest('dist/client'));
 }
 
 // Less the CSS
-gulp.task('less', function() {
-  debug('LESS: ' + PATHS.src + '/main.less');
-  glob.sync(PATHS.src + '/*.less').forEach(lessIt);
+gulp.task('less', function () {
+  debug('LESS: src/client/*.less');
+  glob.sync('src/client/*.less').forEach(lessIt);
 });
 
 function lessIt(file) {
-  var uiRoot = path.dirname(file) + '/..';
   debug('LESSING: ' + file);
   gulp.src(file)
     .pipe(less())
-    .pipe(gulp.dest(uiRoot + '/dist'));
+    .pipe(gulp.dest('dist/client'));
 }
 
-
 // Monitor the app
-gulp.task('nodemon', function () {
+gulp.task('nodemon', ['babel', 'html', 'less', 'bundle'], function () {
   // watch for new HTMLs and publish them
-  gulp.watch(PATHS.src + '/*.html', function (ev) {
+  gulp.watch('src/client/**.html', function (ev) {
     html(ev.path);
   });
 
-  // watch for new dist/app.js and min them
-  gulp.watch(PATHS.dist + '/app.js', function(ev) {
-//    min(ev.path);
-  });
-
-  gulp.watch(PATHS.src + '/main.less', function(ev) {
+  gulp.watch('src/client/main.less', function (ev) {
     lessIt(ev.path);
   });
 
-  gulp.watch(PATHS.dist + '/*', function(ev) {
+  gulp.watch('src/server/*.js', function (ev) {
+
+    return gulp.src(ev.path)
+      .pipe(babel())
+      .pipe(gulp.dest('dist/server'));
+  })
+
+  gulp.watch('dist/client/*', function (ev) {
     livereload.reload();
   });
 
@@ -114,6 +106,6 @@ gulp.task('nodemon', function () {
     env: process.ENV,
     script: 'index.js',
     args: process.argv.slice(2),
-    watch: [ 'index.js' ]
+    watch: ['dist/server/*']
   });
 });

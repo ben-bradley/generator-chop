@@ -1,4 +1,4 @@
-var Models = require('./controller'),
+var Models = require('./api.controllers'),
   Boom = require('boom'),
   q = require('q'),
   _ = require('lodash'),
