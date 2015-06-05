@@ -23,10 +23,12 @@ describe('chop:app', function () {
       'index.js',
       'readme.md',
 
-      'api/controller.js',
-      'api/handlers.js',
-      'api/model.js',
-      'api/routes.js',
+      'src/server/api.controllers.js',
+      'src/server/api.handlers.js',
+      'src/server/api.models.js',
+      'src/server/api.routes.js',
+      'src/server/ui.routes.js',
+      'src/server/index.js',
 
       'config/default.json',
       'config/dev.json',
@@ -35,16 +37,14 @@ describe('chop:app', function () {
 
       'test/spec.js',
 
-      'ui/routes.js',
-      'ui/dist',
-      'ui/src/index.html',
-      'ui/src/app.js',
-      'ui/src/main.less',
-      'ui/src/components/App.js',
-      'ui/src/components/Content.js',
-      'ui/src/components/Main.js',
-      'ui/src/components/Routes.js',
-      'ui/src/components/Toolbar.js'
+      'src/client/index.html',
+      'src/client/app.js',
+      'src/client/main.less',
+      'src/client/components/App.js',
+      'src/client/components/Content.js',
+      'src/client/components/Main.js',
+      'src/client/components/Routes.js',
+      'src/client/components/Toolbar.js'
     ]);
   });
 });
